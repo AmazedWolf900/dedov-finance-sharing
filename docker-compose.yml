@@ -23,8 +23,8 @@ services:
     volumes:
       - ./db:/var/lib/mysql
 
-  adminer:
+  phpmyadmin:
     image: phpmyadmin
     restart: always
     ports:
-      - 8080:8080
+      - 8080:80
