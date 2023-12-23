@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% set active_page = " " %}
+{% block title %}Projects{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+<a class="btn btn-primary btn-sm" href="{{ referrer }}">Zpět &#8617;</a>
+<a class="btn btn-secondary btn-sm" href="{{ url_for('attachments.download', attachment_id = attachment.id) }}">Stáhnout</a>
+
+<!-- attachment delete window -->
+<button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#attachmentDeleteModal">
+    Smazat přílohu
+</button>
+<!-- Modal -->
+<div class="modal fade" id="attachmentDeleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Upozornění!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Opravdu chceš přílohu smazat?
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-danger" href="{{ url_for('attachments.delete', attachment_id = attachment.id, back_path = back_path) }}">Ano</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ne</button>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+{% set filepath = "attachments/" + attachment.file_name %}
+<embed style="width: 100vh; height: 100vh;" src="{{ url_for('static', filename=filepath) }}">
+
+{% endblock %}
+
+{% block afterhtml %}
+{% endblock %}
