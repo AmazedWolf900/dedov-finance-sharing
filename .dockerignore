@@ -1,6 +1,7 @@
 __pycache__/
 venv/
-
+db/
+attachments/
 docker-compose.yml
 Dockerfile
 .env
