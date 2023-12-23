@@ -1,0 +1,8 @@
+body        {background-color: #181c33;}
+.content    {color: #9da0b5;}
+
+table.table-fit             {width: auto !important; table-layout: auto !important;}
+table.table-fit thead th,
+table.table-fit tbody td,
+table.table-fit tfoot th,
+table.table-fit tfoot td    {width: auto !important;}

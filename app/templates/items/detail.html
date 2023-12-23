@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+{% set active_page = "projects" %}
+{% block title %}Projects{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/clickable-row.css') }}">
+{% endblock %}
+
+{% block content %}
+<a class="btn btn-primary btn-sm" href="{{ url_for('projects.detail', project_id = item.project_id) }}">Zpět &#8617;</a>
+
+<!-- item delete window -->
+<button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#attachmentDeleteModal">
+    Smazat položku
+</button>
+<!-- Modal -->
+<div class="modal fade" id="attachmentDeleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Upozornění!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Opravdu chceš položku smazat?
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-danger" href="{{ url_for('items.delete', item_id = item.id) }}">Ano</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ne</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3 class="mt-3">{{ item.name }}</h3>
+
+<hr>
+<p>Cena: <span class="badge bg-secondary">{{ item.cost }}</span> Kč.</p>
+<p>Zaplaceno: <span class="badge bg-secondary">{{ item.paid }}</span> Kč - <span class="badge {% if not item.cost == item.paid %}bg-danger{% else %}bg-success{% endif %}">{{ (item.paid / item.cost * 100) | round(1) }}</span> %, zbývá: <span class="badge bg-secondary">{{ (item.cost - item.paid) | round(2) }}</span> Kč.</p>
+
+<h3 class="mt-3">Platby</h3>
+
+<!-- New payment window -->
+{% if item.paid < item.cost %}
+<button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#newPaymentModal">
+    Nová platba
+</button>
+{% endif %}
+<!-- Modal -->
+<div class="modal fade" id="newPaymentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nová platba</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="{{ url_for('payments.new', item_id = item.id) }}">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <!-- Cost -->
+                            <label for="value">Částka</label>
+                            <input type="text" class="form-control" id="value" name="value" required>
+                        </div>
+                        <div class="col">
+                            <!-- Payment method -->
+                            <label for="payment_method">Typ platby</label>
+                            <select class="form-select" id="payment_method" name="payment_method">
+                                {% for payment_method in payment_methods %}
+                                <option value="{{ payment_method.id }}">{{ payment_method.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <!-- Person -->
+                            <label for="person">Osoba</label>
+                            <select class="form-select" id="person" name="person">
+                                {% for person in persons %}
+                                <option value="{{ person.id }}">{{ person.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input class="invisible" type="number" id="item_id" name="item_id" value="{{ item.id }}">
+                    <button type="submit" class="btn btn-primary">Vytvořit platbu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<table class="mt-3 table-fit table table-dark table-striped table-hover table-sm">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Částka</th>
+            <th>Plátce</th>
+            <th>Vytvořena</th>
+            <th>&#128196;</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for payment in item.payments %}
+        <tr class="clickable-row" data-href="{{ url_for('payments.detail', payment_id = payment.id) }}">
+            <td>{{ payment.id }}</td>
+            <td>{{ payment.value }}</td>
+            <td>
+                {% for person in persons %}
+                    {% if payment.person_id == person.id %}
+                        {{ person.name }}
+                    {% endif %}
+                {% endfor %}
+            </td>
+            <td>{{ payment.created_at.strftime('%d.%m.%Y %T') }}</td>
+            <td>
+                {% if payment.attachments|length > 0 %}
+                    &#10003;
+                {% else %}
+                    &#10005;
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Attachments -->
+<h4 class="mt-3">Přílohy</h4>
+<!-- New attachment window -->
+<button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#newAttachmentModal">
+    Nová příloha
+</button>
+<!-- Modal -->
+<div class="modal fade" id="newAttachmentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nová příloha</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <!-- New attachment form -->
+                <form name="new_attachment_form" action="{{ url_for('attachments.new', item_id = item.id, back_path = request.path) }}" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col">
+                            <label for="file_name" class="form-label">Název souboru</label>
+                            <input type="text" class="form-control" id="file_name" name="file_name">
+                        </div>
+                        <div class="col">
+                            <label for="file" class="form-label">Soubor</label>
+                            <input class="form-control" type="file" id="file" name="file">
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Nahrát</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zpět</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="mt-3 table-fit table table-dark table-striped table-hover table-sm">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Název</th>
+            <th>Velikost</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for attachment in item.attachments %}
+        <tr class="clickable-row" data-href="{{ url_for('attachments.view', attachment_id = attachment.id, back_path = request.path) }}">
+            <td>{{ attachment.id }}</td>
+            <td>{{ attachment.common_name }}</td>
+            <td>{{ (attachment.file_size / 1024 / 1024) | round(2) }} MB</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
+
+{% block afterhtml %}
+<script src="{{ url_for('static', filename='js/clickable-row.js') }}"></script>
+<script>
+function checkInputForNumbers() {
+    var input = document.forms["payment_form"]["value"].value;
+    var regex = /^(?:\d{0,9})(?:\.\d{0,9})?$/;
+    if (!input.match(regex)) {
+        alert("Částka musí být číslo!");
+        return false;
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="author" content="Tomáš Weber">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Import Bootstrap-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+        <title>{% block title %}{% endblock %} - Dědov Finance</title>
+        {% block head %}
+        {% endblock %}
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+            <div class="container-fluid">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link {% if active_page == 'index' %}active{% endif %}" href="{{ url_for('main.index') }}">Domů</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if active_page == 'projects' %}active{% endif %}" href="{{ url_for('projects.list') }}">Projekty</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if active_page == 'persons' %}active{% endif %}" href="{{ url_for('persons.list') }}">Osoby</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="content m-4">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+    </body>
+</html>
+{% block afterhtml %}
+{% endblock %}

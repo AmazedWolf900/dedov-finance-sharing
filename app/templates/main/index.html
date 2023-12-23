@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% set active_page = "index" %}
+{% block title %}Home{% endblock %}
+
+
+{% block content %}
+<h2>Statistiky</h2>
+<p>Počet projektů: <span class="badge bg-secondary">{{ project_count }}</span>.</p>
+<p>Celková hodnota: <span class="badge bg-secondary">NaN</span> Kč.</p>
+<br>
+<p>Počet plateb: <span class="badge bg-secondary">NaN</span>.</p>
+<p>Celkově zaplaceno: <span class="badge bg-secondary">NaN</span> Kč.</p>
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% set active_page = "projects" %}
+{% block title %}Projects{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/clickable-row.css') }}">
+{% endblock %}
+
+{% block content %}
+<a class="btn btn-primary btn-sm" href="{{ url_for('items.detail', item_id = payment.item_id) }}">Zpět &#8617;</a>
+
+<h3 class="mt-3">Platba č. {{ payment.id }}</h3>
+<hr>
+<p>Částka: <span class="badge bg-secondary">{{ payment.value }}</span> Kč.</p>
+<p>Plátce: <span class="badge bg-secondary"><a class="link-light" href="{{ url_for('persons.detail', person_id = person.id) }}">{{ person.name }}</a></span>.</p>
+<p>Typ platby: <span class="badge bg-secondary">{{ payment_method.name }}</span>.</p>
+<p>Datum vytvoření platby: <span class="badge bg-secondary">{{ payment.created_at.strftime('%d.%m.%Y %T') }}</span>.</p>
+
+<!-- Payment delete window -->
+<button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#paymentDeleteModal">
+    Smazat platbu
+</button>
+<!-- Modal -->
+<div class="modal fade" id="paymentDeleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Upozornění!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Opravdu chceš platbu smazat?
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-danger" href="{{ url_for('payments.delete', payment_id = payment.id) }}">Ano</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ne</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Attachments -->
+<h4 class="mt-3">Přílohy</h4>
+<!-- New attachment window -->
+<button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#newAttachmentModal">
+    Nová příloha
+</button>
+<!-- Modal -->
+<div class="modal fade" id="newAttachmentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nová příloha</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <!-- New attachment form -->
+                <form name="new_attachment_form" action="{{ url_for('attachments.new', payment_id = payment.id, back_path = request.path) }}" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col">
+                            <label for="file_name" class="form-label">Název souboru</label>
+                            <input type="text" class="form-control" id="file_name" name="file_name">
+                        </div>
+                        <div class="col">
+                            <label for="file" class="form-label">Soubor</label>
+                            <input class="form-control" type="file" id="file" name="file">
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Nahrát</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zpět</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="mt-3 table-fit table table-dark table-striped table-hover table-sm">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Název</th>
+            <th>Velikost</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for attachment in attachments %}
+        <tr class="clickable-row" data-href="{{ url_for('attachments.view', attachment_id = attachment.id, back_path = request.path) }}">
+            <td>{{ attachment.id }}</td>
+            <td>{{ attachment.common_name }}</td>
+            <td>{{ (attachment.file_size / 1024 / 1024) | round(2) }} MB</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
+
+{% block afterhtml %}
+<script src="{{ url_for('static', filename='js/clickable-row.js') }}"></script>
+{% endblock %}

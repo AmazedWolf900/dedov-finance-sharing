@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% set active_page = "projects" %}
+{% block title %}Projects{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/clickable-row.css') }}">
+{% endblock %}
+
+{% block content %}
+<a class="btn btn-primary btn-sm" href="{{ url_for('projects.list') }}">Zpět &#8617;</a>
+<!-- project delete window -->
+<button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#attachmentDeleteModal">
+    Smazat projekt
+</button>
+<!-- Modal -->
+<div class="modal fade" id="attachmentDeleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Upozornění!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Opravdu chceš projekt smazat?
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-danger" href="{{ url_for('projects.delete', project_id = project.id) }}">Ano</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ne</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3 class="mt-3">{{ project.name }}</h3>
+
+{% if project.description %}
+<p>{{ project.description }}</p>
+{% endif %}
+<hr>
+<p>Počet položek: <span class="badge bg-secondary">{{ items_count }}</span>.</p>
+{% if items_count > 0 %}
+<p>Celkové náklady: <span class="badge bg-secondary">{{ items_sum_cost }}</span> Kč, z toho zaplaceno <span class="badge bg-secondary">{{ items_paid_value }}</span> Kč - <span class="badge bg-secondary">{{ (items_paid_value / items_sum_cost * 100) | round(1) }}</span> %, zbývá: <span class="badge bg-secondary">{{ (items_sum_cost - items_paid_value) | round(2) }}</span> Kč.</p>
+{% endif %}
+
+<h3>Položky</h3>
+
+<!-- New item window -->
+<button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#newItemModal">
+    Nová položka
+</button>
+<!-- Modal -->
+<div class="modal fade" id="newItemModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Upozornění!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="{{ url_for('items.new', project_id = project.id) }}">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <!-- Name -->
+                            <label for="name" class="form-label">Název</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="col">
+                            <!-- Cost -->
+                            <label for="cost" class="form-label">Cena</label>
+                            <input type="text" class="form-control" id="cost" name="cost" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <!-- Description -->
+                            <label for="description" class="form-label">Popis</label>
+                            <textarea type="text" class="form-control" id="description" name="description" rows="5"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Vytvořit položku</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<table class="mt-3 table-fit table table-dark table-striped table-hover table-sm">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Položka</th>
+            <th>Cena</th>
+            <th>Zaplaceno</th>
+            <th>Vytvořena</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr class="clickable-row" data-href="{{ url_for('items.detail', item_id = item.id) }}">
+            <td>{{ item.id }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.cost }}</td>
+            <td>{{ item.paid }} {% if item.cost == item.paid %}&#10003;{% else %}&#10005;{% endif %}</td>
+            <td>{{ item.created_at.strftime('%d.%m.%Y %T') }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}
+
+{% block afterhtml %}
+<script src="{{ url_for('static', filename='js/clickable-row.js') }}"></script>
+{% endblock %}

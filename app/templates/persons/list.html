@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% set active_page = "persons" %}
+{% block title %}Persons{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/clickable-row.css') }}">
+{% endblock %}
+
+{% block content %}
+<a class="btn btn-primary btn-sm" href="{{ url_for('main.index') }}">Zpět &#8617;</a>
+
+<!-- New person window -->
+<button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#newPersonModal">
+    Nová osoba
+</button>
+<!-- Modal -->
+<div class="modal fade" id="newPersonModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nová osoba</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="{{ url_for('persons.new') }}">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <!-- Name -->
+                            <label for="name" class="form-label">Jméno</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="col">
+                            <!-- Address -->
+                            <label for="address" class="form-label">Adresa</label>
+                            <input type="text" class="form-control" id="address" name="address" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Vytvořit osobu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<table class="mt-3 table-fit table table-dark table-striped table-hover table-sm">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Jméno</th>
+            <th>Adresa</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for person in persons %}
+        <tr class="clickable-row" data-href="{{ url_for('persons.detail', person_id=person.id) }}">
+            <td>{{ person.id }}</td>
+            <td>{{ person.name }}</td>
+            <td>{{ person.address }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
+
+{% block afterhtml %}
+<script src="{{ url_for('static', filename='js/clickable-row.js') }}"></script>
+{% endblock %}
