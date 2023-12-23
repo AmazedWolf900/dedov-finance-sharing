@@ -31,7 +31,8 @@ def detail(project_id):
                         items = items,
                         items_count = len(items),
                         items_sum_cost = items_sum_cost,
-                        items_paid_value = items_paid_value
+                        items_paid_value = items_paid_value,
+                        request = request
             )
     
     return str(project_id)
