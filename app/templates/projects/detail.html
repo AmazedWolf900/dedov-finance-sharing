@@ -94,6 +94,7 @@
             <th>Cena</th>
             <th>Zaplaceno</th>
             <th>Vytvořena</th>
+            <th>&#128196;</th>
         </tr>
     </thead>
     <tbody>
@@ -104,6 +105,13 @@
             <td>{{ item.cost }}</td>
             <td>{{ item.paid }} {% if item.cost == item.paid %}&#10003;{% else %}&#10005;{% endif %}</td>
             <td>{{ item.created_at.strftime('%d.%m.%Y %T') }}</td>
+            <td>
+                {% if item.attachments | length > 0 %}
+                    &#10003;
+                {% else %}
+                    &#10005;
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
     </tbody>
