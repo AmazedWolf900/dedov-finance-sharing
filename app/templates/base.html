@@ -27,6 +27,9 @@
                     <li class="nav-item">
                         <a class="nav-link {% if active_page == 'persons' %}active{% endif %}" href="{{ url_for('persons.list') }}">Osoby</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if active_page == 'payments' %}active{% endif %}" href="{{ url_for('payments.list') }}">Platby</a>
+                    </li>
                 </ul>
             </div>
         </nav>
