@@ -6,9 +6,10 @@
 {% block content %}
 <h2>Statistiky</h2>
 <hr>
-<div>Počet projektů: <span class="badge bg-secondary">{{ project_count }}</span>, celková hodnota: <span class="badge bg-secondary">NaN</span> Kč.</div>
+<div>Počet projektů: <span class="badge bg-secondary">{{ project_count }}</span>, celkové náklady: <span class="badge bg-secondary">{{ item_total_cost | round(2) }}</span> Kč.</div>
+<div>Počet položek: <span class="badge bg-secondary">{{ item_count }}</span></div>
 <br>
-<div>Počet plateb: <span class="badge bg-secondary">NaN</span>, celkově zaplaceno: <span class="badge bg-secondary">NaN</span> Kč.</div>
+<div>Počet plateb: <span class="badge bg-secondary">{{ payment_count }}</span>, celkově zaplaceno: <span class="badge bg-secondary">{{ payment_total_value | round(2) }}</span> Kč.</div>
 <br>
 <div>Počet příloh: <span class="badge bg-secondary">{{ attachment_count }}</span>, využití disku: <span class="badge bg-secondary">{{ (attachment_total_file_size / 1024 / 1024) | round(2) }}</span> MB.</div>
 {% endblock %}

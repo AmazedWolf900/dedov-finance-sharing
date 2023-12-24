@@ -4,6 +4,21 @@ from flask import request, redirect, url_for, render_template
 
 from app.models.models import db, Payment, Item, Person, Paymentmethod, Attachment
 
+@bp.route("/payments/list")
+def list():
+    # query payments
+    payments = Payment.query.all()
+    # query persons
+    persons = Person.query.all()
+    # query items
+    items = Item.query.all()
+
+    return render_template("payments/list.html",
+                            payments = payments,
+                            persons = persons,
+                            items = items
+    )
+
 @bp.route("/payments/<int:payment_id>/detail")
 def detail(payment_id):
     # check if the payment exists
