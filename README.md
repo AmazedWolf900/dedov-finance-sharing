@@ -12,3 +12,6 @@ Postup pro spuštění:
 3. `docker compose up`
 
 Testováno na macOS Ventura 13.4 a Debian 12.
+
+## To-Do
+- Uživatelské účty a přihlašování
