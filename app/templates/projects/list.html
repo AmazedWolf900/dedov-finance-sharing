@@ -49,6 +49,7 @@
             <th>ID</th>
             <th>Název</th>
             <th>Vytvořeno</th>
+            <th>&#128196;</th>
         </tr>
     </thead>
     <tbody>
@@ -57,6 +58,13 @@
             <td>{{ project.id }}</td>
             <td>{{ project.name }}</td>
             <td>{{ project.created_at.strftime('%d.%m.%Y %T') }}</td>
+            <td>
+                {% if project.attachments | length > 0 %}
+                    &#10003;
+                {% else %}
+                    &#10005;
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
     </tbody>
