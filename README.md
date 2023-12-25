@@ -14,6 +14,6 @@ Installation steps:
 Tested on macOS Ventura 13.4 and Debian 12.
 
 ## To-Do
-- Deploy Gunicorn & NGINX instead of the development Flask webserver
+- ~~Deploy Gunicorn instead of the development Flask webserver~~
 - User accounts with login and individual permissions
 - Pagination
