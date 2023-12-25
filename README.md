@@ -1,17 +1,18 @@
 # Dedov Finance Sharing Platform
 
-Projekt slouží pro evidenci finančních nákladů jednotlivými osobami v rámci společné nemovitosti.
+Aim of this project is to record and further evidence of the financial costs incurred by each owner within the common property.
 
 ## Instalace
 
-Pro spuštení je nutné míst nainstalovaný [Docker](https://docs.docker.com/engine/install/) s rozšířením [compose](https://docs.docker.com/compose/install/).
+[Docker](https://docs.docker.com/engine/install/), with [compose](https://docs.docker.com/compose/install/) extension, must be installed to run this project.
 
-Postup pro spuštění:
-1. `cp .env_example .env` - v případě potřeby soubor uprav dle vlastních parametrů
-2. `docker-compose.yml_example docker-compose.yml` - v případě potřeby soubor uprav dle vlastních parametrů
+Installation steps:
+1. `cp .env_example .env` - customize according to your needs
+2. `docker-compose.yml_example docker-compose.yml` - customize according to your needs
 3. `docker compose up`
 
-Testováno na macOS Ventura 13.4 a Debian 12.
+Tested on macOS Ventura 13.4 and Debian 12.
 
 ## To-Do
-- Uživatelské účty a přihlašování
+- User accounts with login and individual permissions
+- Pagination
