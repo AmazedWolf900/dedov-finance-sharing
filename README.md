@@ -2,7 +2,7 @@
 
 Aim of this project is to record and further evidence of the financial costs incurred by each owner within the common property.
 
-## Instalace
+## Installation
 
 [Docker](https://docs.docker.com/engine/install/), with [compose](https://docs.docker.com/compose/install/) extension, must be installed to run this project.
 
