@@ -5,3 +5,4 @@ db/
 docker-compose.yml
 .env
 test_database.sql
+dev.sh
