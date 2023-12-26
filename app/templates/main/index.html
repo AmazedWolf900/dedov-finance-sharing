@@ -18,4 +18,5 @@
 {% if attachment_count > 0 %}
 <div>Počet příloh: <span class="badge bg-secondary">{{ attachment_count }}</span>, využití disku: <span class="badge bg-secondary">{{ (attachment_total_file_size / 1024 / 1024) | round(2) }}</span> MB.</div>
 {% endif %}
+<div>Velikost databáze: <span class="badge bg-secondary">{{ (db_size / 1024 / 1024) | round(2) }}</span> MB.</div>
 {% endblock %}
