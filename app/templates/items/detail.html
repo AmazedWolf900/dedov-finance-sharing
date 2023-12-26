@@ -34,6 +34,9 @@
 
 <h3 class="mt-3">{{ item.name }}</h3>
 
+{% if item.description %}
+<p>{{ item.description }}</p>
+{% endif %}
 <hr>
 <p>Cena: <span class="badge bg-secondary">{{ item.cost }}</span> Kč.</p>
 <p>Zaplaceno: <span class="badge bg-secondary">{{ item.paid }}</span> Kč - <span class="badge {% if not item.cost == item.paid %}bg-danger{% else %}bg-success{% endif %}">{{ (item.paid / item.cost * 100) | round(1) }}</span> %, zbývá: <span class="badge bg-secondary">{{ (item.cost - item.paid) | round(2) }}</span> Kč.</p>
