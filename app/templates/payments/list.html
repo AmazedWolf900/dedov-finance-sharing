@@ -52,6 +52,28 @@
     </tbody>
 </table>
 
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        {% if payments.has_prev %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('payments.list', page=1) }}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li class="page-item"><a class="page-link" href="{{ url_for('payments.list', page=payments.prev_num) }}">{{ payments.prev_num }}</a></li>
+        {% endif %}
+        <li class="page-item"><a class="page-link" href="#">{{ payments.page }}</a></li>
+        {% if payments.has_next %}
+        <li class="page-item"><a class="page-link" href="{{ url_for('payments.list', page=payments.next_num) }}">{{ payments.next_num }}</a></li>
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('payments.list', page=payments.pages) }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+
 {% endblock %}
 
 {% block afterhtml %}

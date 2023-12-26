@@ -4,10 +4,10 @@ from flask import request, redirect, url_for, render_template
 
 from app.models.models import db, Payment, Item, Person, Paymentmethod, Attachment
 
-@bp.route("/payments/list")
-def list():
+@bp.route("/payments/list/page/<int:page>")
+def list(page = 1):
     # query payments
-    payments = Payment.query.all()
+    payments = Payment.query.paginate(page = 1, per_page = 10)
     # query persons
     persons = Person.query.all()
     # query items

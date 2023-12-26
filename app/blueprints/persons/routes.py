@@ -34,10 +34,10 @@ def new():
             url_for("persons.detail", person_id = new_person.id)
         )
 
-@bp.route("/persons/list")
-def list():
-    persons = Person.query.all()
-    return render_template("persons/list.html", persons=persons)
+@bp.route("/persons/list/page/<int:page>")
+def list(page = 1):
+    persons = Person.query.paginate(page = page, per_page = 10)
+    return render_template("persons/list.html", persons = persons)
 
 @bp.route("/persons/<int:person_id>/detail")
 def detail(person_id):
