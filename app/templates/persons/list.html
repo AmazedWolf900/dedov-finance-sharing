@@ -63,6 +63,29 @@
     </tbody>
 </table>
 
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        {% if persons.has_prev %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('persons.list', page=1) }}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li class="page-item"><a class="page-link" href="{{ url_for('persons.list', page=persons.prev_num) }}">{{ persons.prev_num }}</a></li>
+        {% endif %}
+        <li class="page-item"><a class="page-link" href="#">{{ persons.page }}</a></li>
+        {% if persons.has_next %}
+        <li class="page-item"><a class="page-link" href="{{ url_for('persons.list', page=persons.next_num) }}">{{ persons.next_num }}</a></li>
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('persons.list', page=persons.pages) }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+
+
 {% endblock %}
 
 {% block afterhtml %}
