@@ -7,7 +7,7 @@ from app.models.models import db, Payment, Item, Person, Paymentmethod, Attachme
 @bp.route("/payments/list/page/<int:page>")
 def list(page = 1):
     # query payments
-    payments = Payment.query.order_by(Payment.id).paginate(page = page, per_page = 10)
+    payments = Payment.query.order_by(Payment.created_at).paginate(page = page, per_page = 10)
     # query persons
     persons = Person.query.all()
     # query items
