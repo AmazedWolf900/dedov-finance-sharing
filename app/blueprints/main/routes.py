@@ -15,13 +15,17 @@ def index():
 
     item_count = Item.query.count()
     item_total_cost = format(
-        Item.query.with_entities(func.sum(Item.cost).label("cost_total")).first()[0],
+        round(
+            Item.query.with_entities(func.sum(Item.cost).label("cost_total")).first()[0],
+            2),
         ","
     )
 
     payment_count = Payment.query.count()
     payment_total_value = format(
-        Payment.query.with_entities(func.sum(Payment.value).label("value_total")).first()[0],
+        round(
+            Payment.query.with_entities(func.sum(Payment.value).label("value_total")).first()[0],
+            2),
         ","
     )
 
