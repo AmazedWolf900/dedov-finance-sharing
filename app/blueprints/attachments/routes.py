@@ -2,7 +2,7 @@ from app.blueprints.attachments import bp
 
 from flask import request, redirect, render_template, send_file
 
-from app.models.models import db, Attachment
+from app.models.finance import db, Attachment
 
 @bp.route("/attachments/<int:attachment_id>/download")
 def download(attachment_id):

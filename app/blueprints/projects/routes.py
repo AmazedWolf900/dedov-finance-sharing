@@ -3,7 +3,7 @@ from app.blueprints.projects import bp
 from flask import render_template, request, url_for, redirect
 from sqlalchemy.sql import func
 
-from app.models.models import db, Project, Item, Payment
+from app.models.finance import db, Project, Item, Payment
 
 @bp.route("/projects/list")
 def list():

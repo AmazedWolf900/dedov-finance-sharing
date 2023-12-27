@@ -2,7 +2,7 @@ from app.blueprints.items import bp
 
 from flask import render_template, request, redirect, url_for
 
-from app.models.models import db, Item, Paymentmethod, Person, Payment, Attachment
+from app.models.finance import db, Item, Paymentmethod, Person, Payment, Attachment
 
 @bp.route("/items/<int:item_id>/delete")
 def delete(item_id):

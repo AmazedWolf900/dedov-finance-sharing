@@ -3,7 +3,7 @@ from app.blueprints.main import bp
 from flask import render_template
 from sqlalchemy import func
 
-from app.models.models import Project, Attachment, Payment, Item
+from app.models.finance import Project, Attachment, Payment, Item
 from app.db_size import getsize
 
 @bp.route("/")

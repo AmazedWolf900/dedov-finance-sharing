@@ -2,7 +2,7 @@ from app.blueprints.payments import bp
 
 from flask import request, redirect, url_for, render_template
 
-from app.models.models import db, Payment, Item, Person, Paymentmethod, Attachment
+from app.models.finance import db, Payment, Item, Person, Paymentmethod, Attachment
 
 @bp.route("/payments/list/page/<int:page>")
 def list(page = 1):

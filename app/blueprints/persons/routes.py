@@ -3,7 +3,7 @@ from app.blueprints.persons import bp
 from flask import render_template, request, redirect, url_for
 from sqlalchemy.sql import func
 
-from app.models.models import db, Person, Payment
+from app.models.finance import db, Person, Payment
 
 @bp.route("/persons/<int:person_id>/delete")
 def delete(person_id):
