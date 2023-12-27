@@ -23,9 +23,17 @@ def detail(project_id):
             # query item's sum cost
             items_sum_cost = Item.query.with_entities(func.sum(Item.cost).label("items_sum_cost")).filter_by(project_id=project_id).order_by(Item.id).first()
             items_sum_cost = items_sum_cost[0]
+            #items_sum_cost = format(
+            #    Item.query.with_entities(func.sum(Item.cost).label("items_sum_cost")).filter_by(project_id=project_id).order_by(Item.id).first()[0],
+            #    ","
+            #)
             # query item's paid value
             items_paid_value = Item.query.with_entities(func.sum(Item.paid).label("items_paid_value")).filter_by(project_id=project_id).order_by(Item.id).first()
             items_paid_value = items_paid_value[0]
+            #items_paid_value = format(
+            #    Item.query.with_entities(func.sum(Item.paid).label("items_paid_value")).filter_by(project_id=project_id).order_by(Item.id).first()[0],
+            #    ","
+            #)
             return render_template("projects/detail.html",
                         project = project,
                         items = items,

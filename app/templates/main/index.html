@@ -7,12 +7,12 @@
 <h2>Statistiky</h2>
 <hr>
 {% if project_count > 0 %}
-<div>Počet projektů: <span class="badge bg-secondary">{{ project_count }}</span>, celkové náklady: <span class="badge bg-secondary">{{ item_total_cost }}</span> Kč.</div>
+<div>Počet projektů: <span class="badge bg-secondary">{{ project_count }}</span>, celkové náklady: <span class="badge bg-secondary">{{ "{:,}".format(item_total_cost | round(2)) }}</span> Kč.</div>
 <div>Počet položek: <span class="badge bg-secondary">{{ item_count }}</span></div>
 {% endif %}
 <br>
 {% if payment_count > 0 %}
-<div>Počet plateb: <span class="badge bg-secondary">{{ payment_count }}</span>, celkově zaplaceno: <span class="badge bg-secondary">{{ payment_total_value }}</span> Kč.</div>
+<div>Počet plateb: <span class="badge bg-secondary">{{ payment_count }}</span>, celkově zaplaceno: <span class="badge bg-secondary">{{ "{:,}".format(payment_total_value | round(2)) }}</span> Kč.</div>
 {% endif %}
 <br>
 {% if attachment_count > 0 %}

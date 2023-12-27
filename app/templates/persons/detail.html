@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-<a class="btn btn-primary btn-sm" href="{{ url_for('persons.list') }}">Seznam osob &#8617;</a>
+<a class="btn btn-primary btn-sm" href="{{ url_for('persons.list', page = 1) }}">Seznam osob &#8617;</a>
 
 <!-- Person delete window -->
 <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#attachmentDeleteModal">
@@ -58,7 +58,7 @@
         {% for payment in person.payments %}
         <tr class="clickable-row" data-href="{{ url_for('payments.detail', payment_id = payment.id) }}">
             <td>{{ payment.id }}</td>
-            <td>{{ payment.value }}</td>
+            <td>{{ "{:,}".format(payment.value) }}</td>
             <td>{{ payment.created_at.strftime('%d.%m.%Y %T') }}</td>
             <td>
                 {% if payment.attachments|length > 0 %}

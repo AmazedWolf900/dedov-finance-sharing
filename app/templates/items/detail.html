@@ -38,8 +38,8 @@
 <p>{{ item.description }}</p>
 {% endif %}
 <hr>
-<p>Cena: <span class="badge bg-secondary">{{ item.cost }}</span> Kč.</p>
-<p>Zaplaceno: <span class="badge bg-secondary">{{ item.paid }}</span> Kč - <span class="badge {% if not item.cost == item.paid %}bg-danger{% else %}bg-success{% endif %}">{{ (item.paid / item.cost * 100) | round(1) }}</span> %, zbývá: <span class="badge bg-secondary">{{ (item.cost - item.paid) | round(2) }}</span> Kč.</p>
+<p>Cena: <span class="badge bg-secondary">{{ "{:,}".format(item.cost) }}</span> Kč.</p>
+<p>Zaplaceno: <span class="badge bg-secondary">{{ "{:,}".format(item.paid) }}</span> Kč - <span class="badge {% if not item.cost == item.paid %}bg-danger{% else %}bg-success{% endif %}">{{ (item.paid / item.cost * 100) | round(1) }}</span> %, zbývá: <span class="badge bg-secondary">{{ "{:,}".format((item.cost - item.paid) | round(2)) }}</span> Kč.</p>
 
 <h3 class="mt-3">Platby</h3>
 
@@ -110,7 +110,7 @@
         {% for payment in item.payments %}
         <tr class="clickable-row" data-href="{{ url_for('payments.detail', payment_id = payment.id) }}">
             <td>{{ payment.id }}</td>
-            <td>{{ payment.value }}</td>
+            <td>{{ "{:,}".format(payment.value) }}</td>
             <td>
                 {% for person in persons %}
                     {% if payment.person_id == person.id %}

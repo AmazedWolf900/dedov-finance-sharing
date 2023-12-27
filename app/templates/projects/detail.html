@@ -39,7 +39,7 @@
 <hr>
 <p>Počet položek: <span class="badge bg-secondary">{{ items_count }}</span>.</p>
 {% if items_count > 0 %}
-<p>Celkové náklady: <span class="badge bg-secondary">{{ items_sum_cost | round(2) }}</span> Kč, z toho zaplaceno <span class="badge bg-secondary">{{ items_paid_value | round(2) }}</span> Kč - <span class="badge bg-secondary">{{ (items_paid_value / items_sum_cost * 100) | round(1) }}</span> %, zbývá: <span class="badge bg-secondary">{{ (items_sum_cost - items_paid_value) | round(2) }}</span> Kč.</p>
+<p>Celkové náklady: <span class="badge bg-secondary">{{ "{:,}".format(items_sum_cost | round(2)) }}</span> Kč, z toho zaplaceno <span class="badge bg-secondary">{{ "{:,}".format(items_paid_value | round(2)) }}</span> Kč - <span class="badge bg-secondary">{{ (items_paid_value / items_sum_cost * 100) | round(1) }}</span> %, zbývá: <span class="badge bg-secondary">{{ "{:,}".format((items_sum_cost - items_paid_value) | round(2)) }}</span> Kč.</p>
 {% endif %}
 
 <h3>Položky</h3>
@@ -102,8 +102,8 @@
         <tr class="clickable-row" data-href="{{ url_for('items.detail', item_id = item.id) }}">
             <td>{{ item.id }}</td>
             <td>{{ item.name }}</td>
-            <td>{{ item.cost }}</td>
-            <td>{{ item.paid }} {% if item.cost == item.paid %}&#10003;{% else %}&#10005;{% endif %}</td>
+            <td>{{ "{:,}".format(item.cost) }}</td>
+            <td>{{ "{:,}".format(item.paid) }} {% if item.cost == item.paid %}&#10003;{% else %}&#10005;{% endif %}</td>
             <td>{{ item.created_at.strftime('%d.%m.%Y %T') }}</td>
             <td>
                 {% if item.attachments | length > 0 %}

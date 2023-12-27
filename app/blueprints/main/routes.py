@@ -14,20 +14,10 @@ def index():
     attachment_total_file_size = Attachment.query.with_entities(func.sum(Attachment.file_size).label("fs_total")).first()[0]
 
     item_count = Item.query.count()
-    item_total_cost = format(
-        round(
-            Item.query.with_entities(func.sum(Item.cost).label("cost_total")).first()[0],
-            2),
-        ","
-    )
+    item_total_cost = Item.query.with_entities(func.sum(Item.cost).label("cost_total")).first()[0]
 
     payment_count = Payment.query.count()
-    payment_total_value = format(
-        round(
-            Payment.query.with_entities(func.sum(Payment.value).label("value_total")).first()[0],
-            2),
-        ","
-    )
+    payment_total_value = Payment.query.with_entities(func.sum(Payment.value).label("value_total")).first()[0]
 
     db_size = getsize()
 
