@@ -86,7 +86,7 @@
     </div>
 </div>
 
-<table class="mt-3 table-fit table table-dark table-striped table-hover table-sm">
+<table class="mt-3 table-fit table table-dark table-hover table-sm">
     <thead>
         <tr>
             <th>ID</th>
@@ -103,7 +103,15 @@
             <td>{{ item.id }}</td>
             <td>{{ item.name }}</td>
             <td>{{ "{:,}".format(item.cost) }}</td>
-            <td>{{ "{:,}".format(item.paid) }} {% if item.cost == item.paid %}&#10003;{% else %}&#10005;{% endif %}</td>
+            {% if item.cost == item.paid %}
+            <td style="background-color: #198754 !important;">
+                {{ "{:,}".format(item.paid) }}
+            </td>
+            {% else %}
+            <td style="background-color: #dc3545 !important;">
+                {{ "{:,}".format(item.paid) }}
+            </td>
+            {% endif %}
             <td>{{ item.created_at.strftime('%d.%m.%Y %T') }}</td>
             <td>
                 {% if item.attachments | length > 0 %}
