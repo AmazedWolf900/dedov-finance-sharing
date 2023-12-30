@@ -38,7 +38,7 @@
 <h4 class="mt-3">Statistiky</h4>
 {% if person.payments|length > 0 %}
 <div>Počet plateb: <span class="badge bg-secondary">{{ person.payments|length }}</span>.</div>
-<div>Celkově zaplaceno: <span class="badge bg-secondary">{{ payments_sum | round(2) }}</span> Kč.</div>
+<div>Celkově zaplaceno: <span class="badge bg-secondary">{{ "{:,}".format(payments_sum | round(2)) }}</span> Kč.</div>
 {% else %}
 <p>Nejsou k dispozici žádné statistiky.</p>
 {% endif %}
